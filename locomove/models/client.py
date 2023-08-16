@@ -2,6 +2,7 @@ import uuid
 from sqlalchemy import Column, Integer, String, ForeignKey, UUID
 from locomove.db import Base
 
+
 class Client(Base):
     __tablename__ = 'clients'
 

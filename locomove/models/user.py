@@ -3,6 +3,7 @@ from sqlalchemy import Column, String, UUID
 
 from locomove.db import Base
 
+
 class User(Base):
     __tablename__ = 'users'
 
@@ -32,6 +33,3 @@ class User(Base):
         String(50),
         nullable=False
     )
-
-
-

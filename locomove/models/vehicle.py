@@ -1,6 +1,9 @@
 import uuid
-from sqlalchemy import Column, String, ForeignKey, UUID
+from sqlalchemy import Column, String, ForeignKey, UUID, Integer
+from sqlalchemy.orm import relationship
+
 from locomove.db import Base
+
 
 class Vehicle(Base):
     __tablename__ = 'vehicles'
@@ -11,16 +14,15 @@ class Vehicle(Base):
         default=uuid.uuid4
     )
 
-    owner_id = Column(
-        UUID(as_uuid=True),
-        ForeignKey('movers.id'),
-        nullable=False
+    mover_id = Column(Integer, ForeignKey('movers.id'))
+    mover = relationship(
+        'Mover',
+        back_populates='vehicles'
     )
 
-    driver_id = Column(
-        UUID(as_uuid=True),
-        ForeignKey('drivers.id'),
-        nullable=False
+    driver = relationship(
+        'Driver',
+        back_populates='vehicles'
     )
 
     model = Column(
@@ -42,4 +44,3 @@ class Vehicle(Base):
         String(50),
         nullable=False
     )
-
