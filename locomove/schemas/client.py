@@ -7,7 +7,7 @@ from locomove.schemas.user import User
 
 class Client(BaseModel):
     id: Annotated[str, UUID4] = Field(default_factory=uuid4)
-    user: User
+    user_id: Annotated[str, UUID4]
 
     class Config:
         orm_mode = True

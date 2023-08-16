@@ -1,5 +1,5 @@
 import uuid
-from sqlalchemy import Column, Integer, String, ForeignKey, UUID
+from sqlalchemy import Column, ForeignKey, UUID
 from locomove.db import Base
 
 

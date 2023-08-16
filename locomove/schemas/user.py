@@ -12,5 +12,5 @@ class User(BaseModel):
     password: str
     phone: str
     email: Optional[str] = None
-    role: Role
+    role: Annotated[Role, str] = Field(default=Role.CLIENT)
 

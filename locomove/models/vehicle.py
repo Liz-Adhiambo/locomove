@@ -15,9 +15,10 @@ class Vehicle(Base):
     )
 
     mover_id = Column(Integer, ForeignKey('movers.id'))
+
     mover = relationship(
         'Mover',
-        back_populates='vehicles'
+        back_populates='vehicles',
     )
 
     driver = relationship(

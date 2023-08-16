@@ -20,7 +20,12 @@ class Driver(Base):
         nullable=False
     )
 
-    vehicle_id = Column(Integer, ForeignKey('vehicles.id'))
-    vehicle = relationship("Vehicle", back_populates="Driver")
+    vehicle_id = Column(
+        UUID(as_uuid=True),
+        ForeignKey('vehicles.id'),
+        nullable=False
+    )
+
+    vehicle = relationship('Vehicle', back_populates='driver')
 
     rating = Column(Integer, nullable=False)

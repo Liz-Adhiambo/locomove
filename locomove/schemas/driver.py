@@ -6,8 +6,8 @@ from locomove.schemas.user import User
 
 class Driver(BaseModel):
     id: Annotated[str, UUID4] = Field(default_factory=uuid4)
-    user: User
-    vehicle: Vehicle
+    user_id: Annotated[str, UUID4]
+    vehicle_id: Annotated[str, UUID4]
 
     class Config:
         orm_mode = True
