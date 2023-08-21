@@ -14,13 +14,13 @@ class User(Base):
         nullable=False
     )
 
-    password = Column(
+    phone = Column(
         String(50),
         nullable=False
     )
 
-    phone = Column(
-        String(50),
+    password = Column(
+        String(255),
         nullable=False
     )
 
@@ -31,5 +31,5 @@ class User(Base):
 
     role = Column(
         String(50),
-        nullable=False
+        nullable=True
     )
