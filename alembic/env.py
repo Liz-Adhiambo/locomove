@@ -10,7 +10,7 @@ from locomove.models import Base
 config = context.config
 
 
-DB_URL = 'postgresql://postgres:root@localhost:5432/locomove'
+DB_URL = "postgresql://liz:passliz@localhost:5432/locomove"
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
 if config.config_file_name is not None:

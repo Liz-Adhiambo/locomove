@@ -53,3 +53,9 @@ def create_new_user(id: str, user: User):
         )
 def delet_a_user(id: str):
     return delete_user(id)
+
+####movers crud
+
+###drivers crud
+
+###vehicles crud
