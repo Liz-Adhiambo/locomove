@@ -1,6 +1,5 @@
 import uuid
 from sqlalchemy import Column, String, ForeignKey, UUID, Integer
-from sqlalchemy.orm import relationship
 
 from locomove.db import Base
 
@@ -14,34 +13,32 @@ class Vehicle(Base):
         default=uuid.uuid4
     )
 
-    mover_id = Column(Integer, ForeignKey('movers.id'))
+    mover_id = Column(
+            UUID(as_uuid=True),
+            ForeignKey('movers.id'))
 
-    mover = relationship(
-        'Mover',
-        back_populates='vehicles',
-    )
-
-    driver = relationship(
-        'Driver',
-        back_populates='vehicles'
+    driver_id = Column(
+            UUID(as_uuid=True),
+            ForeignKey('drivers.id'),
+            nullable=False
     )
 
     model = Column(
-        String(50),
+        String(255),
         nullable=False
     )
 
     plate = Column(
-        String(50),
+        String(255),
         nullable=False
     )
 
     description = Column(
-        String(50),
+        String(255),
         nullable=False
     )
 
     location = Column(
-        String(50),
+        String(255),
         nullable=False
     )

@@ -1,61 +1,18 @@
 from typing import List
 from fastapi import FastAPI
-from locomove.models import *
-from locomove.crud.user import (
-    get_users,
-    get_user,
-    create_user,
-    update_user,
-    delete_user
-)
-from locomove.schemas.user import User
+
+from locomove.schemas.user import User as UserSchema, UserResponse, UserLogin
+from locomove.crud.auth.signup import create_user
+from locomove.crud.auth.login import check_user
 
 app = FastAPI()
 
-
-
-@app.get("/")
-def hello():
-    return {"message": "Hello World"}
-
-
-@app.get(
-        "/users",
-         response_model=List[User],
-         )
-def users():
-    return get_users()
-
-@app.get(
-        "/users/{id}",
-        response_model=User,
-        )
-def get_all_users(id: str):
-    return get_user(id)
-
-@app.post(
-        "/users",
-        response_model=User,
-        )
-def get_one_user(user: User):
+@app.post("/users/", response_model=dict, status_code=201)
+def signup(user: UserSchema):
     return create_user(user)
 
-@app.put(
-        "/users/{id}",
-        response_model=User,
-        )
-def create_new_user(id: str, user: User):
-    return update_user(id, user)
+@app.post("/users/login", response_model=dict, status_code=200)
+def login(user: UserLogin):
+    return check_user(user)
 
-@app.delete(
-        "/users/{id}",
-        response_model=dict
-        )
-def delet_a_user(id: str):
-    return delete_user(id)
 
-####movers crud
-
-###drivers crud
-
-###vehicles crud

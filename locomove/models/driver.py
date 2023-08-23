@@ -2,7 +2,6 @@ import uuid
 
 from sqlalchemy import Column, Integer, String, ForeignKey, UUID
 from locomove.db import Base
-from sqlalchemy.orm import relationship
 
 
 class Driver(Base):
@@ -23,9 +22,7 @@ class Driver(Base):
     vehicle_id = Column(
         UUID(as_uuid=True),
         ForeignKey('vehicles.id'),
-        nullable=False
+        nullable=True
     )
 
-    vehicle = relationship('Vehicle', back_populates='driver')
-
-    rating = Column(Integer, nullable=False)
+    rating = Column(Integer, nullable=False, default=0)

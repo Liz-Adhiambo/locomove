@@ -15,7 +15,7 @@ def get_user(id: str) -> UserSchema:
 
 def create_user(user: UserSchema) -> UserSchema:
     db = next(get_db())
-    db_user = User(**user.dict())
+    db_user = User(**user.model_dump())
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
@@ -30,11 +30,11 @@ def update_user(id: str, user: UserSchema) -> UserSchema:
     db.refresh(db_user)
     return db_user
 
-def delete_user(id: str) -> UserSchema:
+def delete_user(id: str) -> dict:
     db = next(get_db())
     db_user = db.query(User).filter(User.id == id).first()
     db.delete(db_user)
     db.commit()
-    return db_user
+    return {"message": "User deleted successfully."}
 
 

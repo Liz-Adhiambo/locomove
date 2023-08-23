@@ -9,27 +9,27 @@ class User(Base):
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     username = Column(
-        String(50),
+        String(255),
         unique=True,
         nullable=False
     )
 
-    password = Column(
-        String(50),
+    phone = Column(
+        String(255),
         nullable=False
     )
 
-    phone = Column(
-        String(50),
+    password = Column(
+        String(255),
         nullable=False
     )
 
     email = Column(
-        String(50),
+        String(255),
         nullable=True
     )
 
     role = Column(
-        String(50),
-        nullable=False
+        String(255),
+        nullable=True
     )

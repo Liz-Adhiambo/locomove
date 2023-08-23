@@ -15,6 +15,4 @@ class Mover(Base):
         nullable=False
     )
 
-    vehicles = relationship("Vehicle", back_populates="mover")
-
-    rating = Column(Integer, nullable=False)
+    rating = Column(Integer, nullable=False, default=0)
