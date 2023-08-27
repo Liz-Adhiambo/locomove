@@ -24,21 +24,21 @@ class Vehicle(Base):
     )
 
     model = Column(
-        String(50),
+        String(255),
         nullable=False
     )
 
     plate = Column(
-        String(50),
+        String(255),
         nullable=False
     )
 
     description = Column(
-        String(50),
+        String(255),
         nullable=False
     )
 
     location = Column(
-        String(50),
+        String(255),
         nullable=False
     )

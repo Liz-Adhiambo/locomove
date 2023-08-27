@@ -1,18 +1,16 @@
 from locomove.models.user import User
-from locomove.schemas.user import User as UserSchema, UserResponse
+from locomove.schemas.user import UserCreate
 from locomove.db import get_db
 from locomove.crud.auth.helpers import (
     EXPIRES_IN,
     check_is_valid_email,
-    check_is_valid_phone,
     check_is_valid_username,
     create_access_token,
     create_refresh_token,
-    get_password_hash
+    get_password_hash,
 )
 
-
-def create_user(user: UserSchema) -> dict:
+def create_user(user: UserCreate) -> dict:
     db = next(get_db())
     try:
         # check is valid email
@@ -23,6 +21,7 @@ def create_user(user: UserSchema) -> dict:
         check_is_valid_username(user.username)
 
         password_hash = get_password_hash(user.password)
+        print(password_hash)
 
         #remove password from user object
         del user.password
@@ -46,5 +45,8 @@ def create_user(user: UserSchema) -> dict:
 
     except Exception as e:
         raise e
+
+
+
 
 

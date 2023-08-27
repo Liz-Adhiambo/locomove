@@ -3,8 +3,19 @@ import re
 from fastapi import HTTPException
 from locomove.models.user import User
 from locomove.db import get_db
+from jose import jwt
+from datetime import datetime, timedelta
+from typing import Optional, Union, Any
 
 from passlib.context import CryptContext
+
+from locomove.settings import (
+    JWT_SECRET_KEY,
+    JWT_REFRESH_SECRET_KEY,
+    ALGORITHM,
+    EXPIRES_IN,
+    REFRESH_TOKEN_EXPIRE_MINUTES
+)
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -23,10 +34,10 @@ def check_is_valid_email(email: str) -> bool:
         db = next(get_db())
         user = db.query(User).filter(User.email == email).first()
         if user:
-            raise HTTPException(status_code=400, detail="User already exists")
+            raise HTTPException(status_code=400, detail="A user with that email already exists")
         return True
     else:
-        raise HTTPException(status_code=400, detail="Invalid email")
+        raise HTTPException(status_code=400, detail="The email is invalid")
 
 
 def check_is_valid_phone(phone: str) -> bool:
@@ -37,10 +48,10 @@ def check_is_valid_phone(phone: str) -> bool:
         db = next(get_db())
         user = db.query(User).filter(User.phone == phone).first()
         if user:
-            raise HTTPException(status_code=400, detail="User already exists")
+            raise HTTPException(status_code=400, detail="A user with that phone number already exists")
         return True
     else:
-        raise HTTPException(status_code=400, detail="Invalid phone number")
+        raise HTTPException(status_code=400, detail="The phone number is invalid")
 
 def check_is_valid_username(username: str) -> bool:
     # 6 characters long and starts with letter or underscore
@@ -50,27 +61,18 @@ def check_is_valid_username(username: str) -> bool:
         db = next(get_db())
         user = db.query(User).filter(User.username == username).first()
         if user:
-            raise HTTPException(status_code=400, detail="User already exists")
+            raise HTTPException(status_code=400, detail="A user with that username already exists")
         return True
     else:
-        raise HTTPException(status_code=400, detail="Invalid username")
-
-EXPIRES_IN = 60 * 60 # 1 hour
-JWT_SECRET_KEY = "wdgfewfgigyidgyuqweg"
-JWT_REFRESH_SECRET_KEY = "wdgfewfgigyidgyuqweg"
-REFRESH_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7 # 7 days
-ALGORITHM = "HS256"
+        raise HTTPException(status_code=400, detail="Username must be 6 characters long and starts with letter or underscore")
 
 
-from jose import jwt
-from datetime import datetime, timedelta
-from typing import Optional, Union, Any
 
 def create_access_token(subject: Union[str, Any], expires_delta: Optional[int] = None) -> str:
     if expires_delta:
         expires_delta_ = datetime.utcnow() + timedelta(seconds=expires_delta)
     else:
-        expires_delta_ = datetime.utcnow() + timedelta(seconds=EXPIRES_IN)
+        expires_delta_ = datetime.utcnow() + timedelta(seconds=int(EXPIRES_IN))
 
     to_encode = {"exp": expires_delta_, "sub": str(subject)}
     encoded_jwt = jwt.encode(to_encode, JWT_SECRET_KEY, ALGORITHM)
@@ -81,7 +83,7 @@ def create_refresh_token(subject: Union[str, Any], expires_delta: Optional[int] 
     if expires_delta is not None:
         expires_delta_ = datetime.utcnow() + timedelta(minutes=expires_delta)
     else:
-        expires_delta_ = datetime.utcnow() + timedelta(minutes=REFRESH_TOKEN_EXPIRE_MINUTES)
+        expires_delta_ = datetime.utcnow() + timedelta(minutes=int(REFRESH_TOKEN_EXPIRE_MINUTES))
 
     to_encode = {"exp": expires_delta_, "sub": str(subject)}
     encoded_jwt = jwt.encode(to_encode, JWT_REFRESH_SECRET_KEY, ALGORITHM)

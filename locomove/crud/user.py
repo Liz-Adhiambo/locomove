@@ -1,17 +1,40 @@
-from typing import List
+from typing import List, Optional
 from locomove.models.user import User
 from locomove.schemas.client import User as UserSchema
 from locomove.db import get_db
+from sqlalchemy import or_
 
 def get_users() -> List[UserSchema]:
     db = next(get_db())
     users = db.query(User).all()
     return users
 
-def get_user(id: str) -> UserSchema:
-    db = next(get_db())
-    user = db.query(User).filter(User.id == id).first()
-    return user
+def get_user(id: str) -> Optional[UserSchema]:
+    try:
+        db = next(get_db())
+        user = db.query(User).filter(User.id == id).first()
+        if user:
+            return user
+    except Exception as e:
+        print(e)
+        return None
+
+def get_user_by_username_or_email(username: str) -> Optional[UserSchema]:
+    try:
+        db = next(get_db())
+        return (
+        db.query(User)
+        .filter(
+            or_(
+                User.email == username,
+                User.username == username,
+                )
+        )
+        .first()
+    )
+    except Exception as e:
+        print(e)
+        return None
 
 def create_user(user: UserSchema) -> UserSchema:
     db = next(get_db())

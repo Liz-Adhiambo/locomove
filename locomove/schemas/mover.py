@@ -1,5 +1,6 @@
 from uuid import uuid4
-from typing import Annotated, Optional
+from typing import Optional
+from typing_extensions import Annotated
 from pydantic import BaseModel, Field, UUID4
 
 class Mover(BaseModel):

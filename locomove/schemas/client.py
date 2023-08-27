@@ -1,5 +1,5 @@
 from uuid import uuid4
-from typing import Annotated
+from typing_extensions import Annotated
 from pydantic import BaseModel, Field, UUID4
 
 from locomove.schemas.user import User
