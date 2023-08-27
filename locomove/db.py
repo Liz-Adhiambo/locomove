@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, declarative_base, sessionmaker
 
-DB_URL = "postgresql://liz:passliz@localhost:5432/locomove"
+DB_URL = "postgresql://postgres:root@localhost:5432/locomove"
 
 engine = create_engine(
     DB_URL,

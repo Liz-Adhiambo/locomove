@@ -14,11 +14,16 @@ class User(BaseModel):
     email: Optional[str] = None
     role: Optional[Annotated[Role, str]] = None
 
-
-
 class UserResponse(BaseModel):
     id: Annotated[UUID4, str] = Field(default_factory=uuid4)
     username: str
+    phone: str
+    email: Optional[str] = None
+    role: Optional[Annotated[Role, str]] = None
+
+class UserCreate(BaseModel):
+    username: str
+    password: str
     phone: str
     email: Optional[str] = None
     role: Optional[Annotated[Role, str]] = None
